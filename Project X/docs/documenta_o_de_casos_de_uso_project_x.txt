@@ -1,0 +1,347 @@
+================================================================================
+DOCUMENTAÇÃO DE CASOS DE USO — PROJECT X (CONTROLE FINANCEIRO PESSOAL)
+================================================================================
+
+--------------------------------------------------------------------------------
+CASO DE USO 01
+--------------------------------------------------------------------------------
+Identificação:     UC01
+Nome:              Cadastrar Usuário
+Ator(es):          Usuário
+Descrição:         Permite que um novo usuário crie uma conta individualizada no
+                   sistema para registrar e gerenciar suas informações 
+                   financeiras de forma isolada.
+Pré-condição:      O usuário não deve estar autenticado no sistema e deve 
+                   possuir um endereço de e-mail válido que ainda não esteja 
+                   cadastrado.
+Fluxo Principal:   1. O usuário acessa a tela de cadastro do aplicativo.
+                   2. O usuário preenche os campos obrigatórios: nome, e-mail 
+                      e senha.
+                   3. O usuário confirma o envio do formulário.
+                   4. O sistema valida o preenchimento dos campos obrigatórios,
+                      verifica se o formato do e-mail é válido e confirma que 
+                      não há outra conta com o mesmo e-mail.
+                   5. O sistema criptografa a senha (nunca armazenando em texto 
+                      puro), cria a conta individualizada com as categorias 
+                      predefinidas e redireciona o usuário para a tela de login 
+                      ou dashboard.
+Fluxos Alternativo: FA01 — Retornar ao Login: Caso o usuário já possua cadastro, 
+                    ele pode selecionar a opção para ir à tela de login a 
+                    qualquer momento.
+Fluxos de exceção: FE01 — Campos obrigatórios em branco: O sistema destaca os 
+                   campos não preenchidos e impede a criação da conta.
+                   FE02 — Formato de e-mail inválido: O sistema exibe uma 
+                   mensagem informando que o e-mail digitado não possui um 
+                   formato válido.
+                   FE03 — E-mail já cadastrado: O sistema bloqueia o cadastro 
+                   duplicado e informa que o e-mail já está em uso.
+
+--------------------------------------------------------------------------------
+CASO DE USO 02
+--------------------------------------------------------------------------------
+Identificação:     UC02
+Nome:              Realizar Login e Encerrar Sessão
+Ator(es):          Usuário; Serviço de E-mail (Opcional)
+Descrição:         Autentica um usuário cadastrado para acessar seus dados 
+                   financeiros individuais, além de permitir o encerramento 
+                   seguro da sessão e a recuperação de senha.
+Pré-condição:      O usuário deve possuir uma conta previamente cadastrada no 
+                   sistema.
+Fluxo Principal:   1. O usuário acessa a tela de login.
+                   2. O usuário informa seu e-mail e sua senha.
+                   3. O sistema verifica se as credenciais informadas são 
+                      válidas.
+                   4. O sistema autentica o usuário e exibe o painel principal 
+                      (dashboard) com seus dados financeiros individuais.
+Fluxos Alternativo: FA01 — Encerrar sessão (Logout): Estando autenticado, o 
+                    usuário aciona a opção de sair; o sistema encerra a sessão 
+                    com segurança e retorna à tela de login.
+                    FA02 — Recuperação de senha (Opcional): Na tela de login, o 
+                    usuário solicita a recuperação de senha, informa seu e-mail 
+                    e o sistema aciona o Serviço de E-mail para envio das 
+                    instruções de redefinição.
+Fluxos de exceção: FE01 — Credenciais inválidas: Caso o e-mail não exista ou a 
+                   senha esteja incorreta, o sistema bloqueia o acesso e exibe 
+                   uma mensagem de erro.
+                   FE02 — Campos vazios: O sistema solicita o preenchimento 
+                   obrigatório de e-mail e senha antes de validar o acesso.
+
+--------------------------------------------------------------------------------
+CASO DE USO 03
+--------------------------------------------------------------------------------
+Identificação:     UC03
+Nome:              Visualizar Dashboard
+Ator(es):          Usuário
+Descrição:         Exibe um resumo consolidado da situação financeira do 
+                   usuário, reunindo saldo atual, totais de receitas e despesas,
+                   orçamento mensal, movimentações recentes e gráfico por 
+                   categoria.
+Pré-condição:      O usuário deve estar autenticado no sistema.
+Fluxo Principal:   1. O usuário acessa o painel principal (logo após o login ou 
+                      pelo menu de navegação).
+                   2. O sistema recupera os registros financeiros exclusivos do 
+                      usuário para o período padrão (mês atual).
+                   3. O sistema calcula e exibe o saldo atual, total de 
+                      receitas, total de despesas, resumo mensal, lista de 
+                      despesas recentes, progresso do orçamento mensal e o 
+                      gráfico de distribuição de despesas por categoria.
+Fluxos Alternativo: FA01 — Alterar período de visualização: O usuário seleciona 
+                    outro mês ou período no filtro do painel; o sistema 
+                    recalcula e atualiza todos os indicadores e gráficos 
+                    conforme o filtro escolhido.
+Fluxos de exceção: FE01 — Sem movimentações no período: Caso o usuário ainda 
+                   não possua registros no período selecionado, o sistema exibe 
+                   os totais zerados e mensagens informativas nos gráficos e 
+                   listas.
+
+--------------------------------------------------------------------------------
+CASO DE USO 04
+--------------------------------------------------------------------------------
+Identificação:     UC04
+Nome:              Cadastrar Receita
+Ator(es):          Usuário
+Descrição:         Permite registrar entradas financeiras (como salário, 
+                   serviços, rendimentos e benefícios), atualizando 
+                   automaticamente o histórico, o saldo e os relatórios.
+Pré-condição:      O usuário deve estar autenticado no sistema e possuir 
+                   categorias de receita disponíveis.
+Fluxo Principal:   1. O usuário aciona a opção para cadastrar uma nova receita.
+                   2. O usuário informa os dados obrigatórios: valor, descrição,
+                      data de recebimento e categoria correspondente.
+                   3. Opcionalmente, o usuário preenche o campo de observação.
+                   4. O sistema valida os campos obrigatórios e verifica se o 
+                      valor é válido e maior que zero.
+                   5. O sistema salva a receita no histórico financeiro do 
+                      usuário e recalcula automaticamente o saldo disponível, o 
+                      total de entradas e os relatórios.
+Fluxos Alternativo: FA01 — Cancelar operação: O usuário cancela o preenchimento 
+                    antes de salvar, e o sistema descarta os dados sem alterar 
+                    o saldo.
+Fluxos de exceção: FE01 — Campos obrigatórios ausentes: O sistema impede o 
+                   registro e alerta sobre a falta de valor, descrição, data ou 
+                   categoria.
+                   FE02 — Valor inválido ou negativo: O sistema rejeita valores 
+                   menores ou iguais a zero ou não numéricos, exibindo mensagem 
+                   de validação.
+
+--------------------------------------------------------------------------------
+CASO DE USO 05
+--------------------------------------------------------------------------------
+Identificação:     UC05
+Nome:              Cadastrar Despesa
+Ator(es):          Usuário
+Descrição:         Permite registrar saídas financeiras (como alimentação, 
+                   transporte, lazer e contas), atualizando o saldo, os 
+                   gráficos e verificando limites de orçamento.
+Pré-condição:      O usuário deve estar autenticado no sistema e possuir 
+                   categorias de despesa disponíveis.
+Fluxo Principal:   1. O usuário aciona a opção para cadastrar uma nova despesa.
+                   2. O usuário preenche valor, descrição, data, categoria e, 
+                      opcionalmente, uma observação.
+                   3. O sistema valida os campos obrigatórios e impede valores 
+                      inválidos ou negativos.
+                   4. O sistema armazena a despesa no histórico e recalcula 
+                      automaticamente o saldo, os totais de saída, os gráficos e
+                      o consumo do orçamento mensal correspondente.
+Fluxos Alternativo: FA01 — Disparo de alerta de orçamento: Se o registro da 
+                    despesa fizer com que os gastos atinjam um patamar crítico 
+                    (ex.: 80% do limite) ou ultrapassem o orçamento mensal/da 
+                    categoria, o sistema gera um alerta interno para o usuário.
+                    FA02 — Cancelar operação: O usuário desiste do cadastro e 
+                    retorna à tela anterior sem salvar alterações.
+Fluxos de exceção: FE01 — Campos obrigatórios ausentes: O sistema bloqueia o 
+                   salvamento e solicita o preenchimento dos campos 
+                   obrigatórios.
+                   FE02 — Valor inválido ou negativo: O sistema impede o 
+                   registro e informa que o valor deve ser positivo.
+
+--------------------------------------------------------------------------------
+CASO DE USO 06
+--------------------------------------------------------------------------------
+Identificação:     UC06
+Nome:              Gerenciar Categorias Financeiras
+Ator(es):          Usuário
+Descrição:         Permite consultar as categorias predefinidas do sistema e 
+                   criar, editar ou excluir categorias personalizadas associadas
+                   ao tipo receita ou despesa.
+Pré-condição:      O usuário deve estar autenticado no sistema.
+Fluxo Principal:   1. O usuário acessa a seção de gerenciamento de categorias.
+                   2. O sistema lista as categorias predefinidas (Alimentação, 
+                      Moradia, Transporte, Saúde, Educação, Lazer, Compras, 
+                      Salário, Serviços e trabalhos extras, Outros) e as 
+                      categorias personalizadas do usuário.
+                   3. O usuário seleciona a opção de criar nova categoria 
+                      personalizada.
+                   4. O usuário informa o nome, escolhe um ícone visual e 
+                      define o tipo da categoria (Receita ou Despesa).
+                   5. O sistema valida os dados e salva a categoria 
+                      exclusivamente para a conta do usuário.
+Fluxos Alternativo: FA01 — Editar categoria personalizada: O usuário altera o 
+                    nome ou ícone de uma categoria criada por ele.
+                    FA02 — Excluir categoria personalizada: O usuário remove uma
+                    categoria personalizada que não esteja impedida por regras 
+                    de integridade.
+Fluxos de exceção: FE01 — Dados obrigatórios não informados: O sistema impede o 
+                   cadastro caso o nome ou o tipo (receita/despesa) não seja 
+                   informado.
+                   FE02 — Categoria duplicada: O sistema alerta caso já exista 
+                   uma categoria com o mesmo nome e tipo para o usuário.
+
+--------------------------------------------------------------------------------
+CASO DE USO 07
+--------------------------------------------------------------------------------
+Identificação:     UC07
+Nome:              Gerenciar Histórico de Movimentações
+Ator(es):          Usuário
+Descrição:         Permite visualizar todas as receitas e despesas registradas 
+                   em ordem cronológica, aplicar pesquisas e filtros 
+                   combinados, além de editar ou excluir registros existentes.
+Pré-condição:      O usuário deve estar autenticado no sistema.
+Fluxo Principal:   1. O usuário acessa a tela de histórico de movimentações.
+                   2. O sistema exibe todas as receitas e despesas do usuário 
+                      ordenadas por data, diferenciando visualmente entradas e 
+                      saídas, com descrição, valor, categoria e data.
+                   3. O usuário consulta os registros desejados.
+Fluxos Alternativo: FA01 — Pesquisar e filtrar movimentações: O usuário utiliza 
+                    a barra de busca por nome/descrição e/ou aplica filtros 
+                    combinados por tipo (receita/despesa), categoria específica,
+                    intervalo de datas (inicial e final), mês ou ordenação 
+                    (por data ou valor); o sistema atualiza a listagem conforme 
+                    os critérios.
+                    FA02 — Editar movimentação: O usuário seleciona uma 
+                    transação, altera seus dados (valor, descrição, data, 
+                    categoria ou observação) e salva; o sistema recalcula 
+                    automaticamente saldos, gráficos, relatórios e orçamentos.
+                    FA03 — Excluir movimentação: O usuário solicita a exclusão 
+                    de uma transação e confirma a ação; o sistema remove o 
+                    registro e recalcula todos os totais e indicadores afetados.
+Fluxos de exceção: FE01 — Nenhum resultado encontrado: Caso a combinação de 
+                   pesquisa e filtros não retorne registros, o sistema exibe uma
+                   mensagem informando que nenhuma movimentação foi encontrada.
+                   FE02 — Dados inválidos na edição: Caso o usuário tente salvar
+                   uma edição com campos obrigatórios vazios ou valor 
+                   inválido/negativo, o sistema bloqueia a atualização e exibe 
+                   erro.
+
+--------------------------------------------------------------------------------
+CASO DE USO 08
+--------------------------------------------------------------------------------
+Identificação:     UC08
+Nome:              Controlar Orçamento Mensal e Visualizar Alertas
+Ator(es):          Usuário
+Descrição:         Permite definir limites mensais de gastos (geral ou por 
+                   categoria), acompanhar o percentual consumido por barras de 
+                   progresso e consultar alertas internos de proximidade ou 
+                   estouro de limite.
+Pré-condição:      O usuário deve estar autenticado no sistema.
+Fluxo Principal:   1. O usuário acessa a área de orçamentos e metas.
+                   2. O usuário escolhe definir um orçamento geral para o mês ou
+                      um orçamento específico para uma categoria de despesa.
+                   3. O usuário informa o valor limite desejado e confirma.
+                   4. O sistema salva o limite, soma apenas as despesas 
+                      correspondentes ao período e à categoria definidos, 
+                      calcula o percentual utilizado e o valor restante, e 
+                      exibe barras de progresso visuais.
+Fluxos Alternativo: FA01 — Destaque de orçamento ultrapassado: Quando os gastos 
+                    superam 100% do limite definido, o sistema destaca 
+                    visualmente a categoria/orçamento para chamar a atenção do 
+                    usuário.
+                    FA02 — Consultar área de alertas: O usuário acessa a área 
+                    específica de avisos dentro do aplicativo para visualizar 
+                    quais categorias atingiram o patamar de alerta (ex.: 80% 
+                    consumido) ou ultrapassaram o limite.
+                    FA03 — Editar ou remover orçamento: O usuário ajusta o valor
+                    limite ou exclui um orçamento previamente definido.
+Fluxos de exceção: FE01 — Valor de limite inválido: O sistema impede o cadastro 
+                   caso o limite informado seja menor ou igual a zero ou não 
+                   numérico.
+
+--------------------------------------------------------------------------------
+CASO DE USO 09
+--------------------------------------------------------------------------------
+Identificação:     UC09
+Nome:              Gerenciar Metas Financeiras
+Ator(es):          Usuário
+Descrição:         Permite criar, acompanhar, atualizar o saldo acumulado, 
+                   editar e excluir objetivos de economia pessoal.
+Pré-condição:      O usuário deve estar autenticado no sistema.
+Fluxo Principal:   1. O usuário acessa a seção de metas financeiras.
+                   2. O usuário aciona a criação de uma nova meta e informa o 
+                      nome do objetivo, o valor desejado, o valor já acumulado 
+                      inicial e, opcionalmente, a data prevista para conclusão.
+                   3. O sistema valida a coerência dos valores, calcula o 
+                      percentual alcançado e o valor restante para atingir o 
+                      objetivo, e exibe a meta com uma barra de progresso.
+Fluxos Alternativo: FA01 — Atualizar valor acumulado: O usuário seleciona uma 
+                    meta existente e atualiza manualmente o montante acumulado; 
+                    o sistema recalcula o percentual concluído, o saldo restante
+                    e atualiza a barra de progresso.
+                    FA02 — Editar ou excluir meta: O usuário altera os dados de 
+                    uma meta (nome, valor alvo, data) ou exclui o objetivo 
+                    definitivamente.
+Fluxos de exceção: FE01 — Valores incoerentes ou inválidos: O sistema impede o 
+                   cadastro/atualização caso o valor desejado seja menor ou 
+                   igual a zero ou caso o valor acumulado seja negativo.
+
+--------------------------------------------------------------------------------
+CASO DE USO 10
+--------------------------------------------------------------------------------
+Identificação:     UC10
+Nome:              Consultar Relatórios e Gráficos Financeiros
+Ator(es):          Usuário
+Descrição:         Transforma os registros financeiros efetivos do usuário em 
+                   gráficos e resumos analíticos para apoiar decisões 
+                   financeiras.
+Pré-condição:      O usuário deve estar autenticado no sistema.
+Fluxo Principal:   1. O usuário acessa a tela de relatórios/análises.
+                   2. O sistema processa exclusivamente as movimentações 
+                      efetivamente registradas pelo usuário no período padrão.
+                   3. O sistema apresenta os relatórios de: Despesas por 
+                      categoria (gráfico), Receitas versus Despesas, Evolução 
+                      mensal e Resumo do período (totais de entradas, saídas e 
+                      resultado financeiro).
+Fluxos Alternativo: FA01 — Filtrar período de análise: O usuário seleciona 
+                    diferentes períodos ou intervalos de meses; o sistema 
+                    recalcula os totais respeitando o período escolhido e 
+                    atualiza os gráficos.
+                    FA02 — Exportar relatórios (Opcional): Caso implementado, o 
+                    usuário solicita a exportação dos dados do relatório 
+                    exibido.
+Fluxos de exceção: FE01 — Ausência de dados no período: Caso não existam 
+                   transações registradas no intervalo escolhido, o sistema 
+                   exibe o resumo zerado sem apresentar valores estimados como se
+                   fossem reais.
+
+--------------------------------------------------------------------------------
+CASO DE USO 11
+--------------------------------------------------------------------------------
+Identificação:     UC11
+Nome:              Gerenciar Perfil e Configurações
+Ator(es):          Usuário
+Descrição:         Permite ao usuário consultar e alterar seus dados pessoais, 
+                   atualizar sua senha, ajustar preferências da aplicação e 
+                   excluir sua conta.
+Pré-condição:      O usuário deve estar autenticado no sistema.
+Fluxo Principal:   1. O usuário acessa a área de perfil e configurações.
+                   2. O sistema exibe os dados cadastrais atuais e as opções de
+                      configuração.
+                   3. O usuário edita seu nome e/ou ajusta as preferências da 
+                      aplicação (moeda utilizada, formato de exibição de datas e
+                      preferências de visualização do painel).
+                   4. O usuário confirma as alterações e o sistema salva as 
+                      novas configurações.
+Fluxos Alternativo: FA01 — Atualizar senha: O usuário informa a senha atual e a 
+                    nova senha; o sistema valida a senha atual, criptografa a 
+                    nova senha e atualiza a credencial.
+                    FA02 — Solicitar exclusão da conta: O usuário solicita a 
+                    exclusão definitiva de sua conta e confirma a operação; o 
+                    sistema remove a conta juntamente com todos os dados 
+                    financeiros associados (movimentações, categorias, 
+                    orçamentos e metas) para não deixar dados órfãos, 
+                    encerrando a sessão.
+Fluxos de exceção: FE01 — Senha atual incorreta: Ao tentar alterar a senha, se a
+                   senha atual informada não conferir, o sistema cancela a 
+                   alteração e exibe mensagem de erro.
+                   FE02 — Nome em branco: O sistema impede salvar o perfil caso 
+                   o campo nome esteja vazio.
+================================================================================
